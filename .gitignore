@@ -161,3 +161,4 @@ cython_debug/
 
 # Processing resiults
 Opgave2/*logs.txt
+Opgave3/cleaned_data.csv
