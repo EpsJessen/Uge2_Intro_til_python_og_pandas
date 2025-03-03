@@ -19,9 +19,25 @@ def read_file(filename:str)->list[str]:
         print(f"ERROR: Could not read file {path}!")
     return dirty_rows
 
+def clean_rows(dirty_rows:list[str]):
+    number_of_fields = len(fields)
+    for number, row in enumerate(dirty_rows, 2):
+        if len(row) != number_of_fields:
+            print(f"ERROR: row {number} contains the wrong amount of data!")
+            continue
+        entry_error = False
+        for entry in row:
+            if not entry:
+                print(f"ERROR: row {number} contains empty entries!")
+                entry_error = True
+                break
+        if not entry_error:
+            rows.append(row)
+
 
 def main():
     dirty_rows = read_file("source_data.csv")
+    write_file("cleaned_data.csv")
 
 if __name__ == "__main__":
     main()
