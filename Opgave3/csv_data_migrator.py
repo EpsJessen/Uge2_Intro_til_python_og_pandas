@@ -34,9 +34,33 @@ def clean_rows(dirty_rows:list[str]):
         if not entry_error:
             rows.append(row)
 
+def row_to_str(row:list[str])->str:
+    data = ""
+    for entry in row[:-1]:
+        data += entry +","
+    data += row[-1]
+    return data
+
+def write_file(filename:str)->None:
+    path = os.path.join("Opgave3", filename)
+    try:
+        with open(path, "w") as file:
+        
+            fields_as_string = row_to_str(fields)
+            file.write(fields_as_string + "\n")
+
+            for row in rows:
+                data = row_to_str(row)
+                file.write(data + "\n")
+    except OSError:
+        print(f"ERROR: could not write to file {path}")
+        
+
+
 
 def main():
     dirty_rows = read_file("source_data.csv")
+    clean_rows(dirty_rows)
     write_file("cleaned_data.csv")
 
 if __name__ == "__main__":
