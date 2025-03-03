@@ -1,5 +1,7 @@
 import os.path
 
+log_types = ['SUCCESS', 'ERROR', 'WARNING', 'INFO']
+
 def open_logfile(file_path:str = "Opgave2/app_log.txt")->list[str]:
     try:
         path = os.path.join(file_path)
