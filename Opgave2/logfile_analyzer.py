@@ -39,6 +39,11 @@ def get_logs_by_type(logtype:str, logs:list[str])->list[str]:
 
 def main():
     logs = open_logfile()
+    write_logs(logs)
+    
+
+
+    
 
 if __name__ == "__main__":
     main()
