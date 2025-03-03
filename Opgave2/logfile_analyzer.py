@@ -13,6 +13,22 @@ def open_logfile(file_path:str = "Opgave2/app_log.txt")->list[str]:
     except:
         print("Could not read file!")
         return []
+    
+def write_by_log_type(logtype:str, logs)->bool:
+    path = os.path.join("Opgave2", logtype.lower() + "_logs.txt")
+    try:
+        with open(path, "w") as file:
+            for log in logs:
+                file.write(log +"\n")
+        return True
+    except:
+        print("Something went wrong trying to write to {path}!")
+        return False
+
+def write_logs(logs)->None:
+    for log_type in log_types:
+        logs_of_type = get_logs_by_type(log_type, logs)
+        write_by_log_type(log_type, logs_of_type)
 
 def get_logs_by_type(logtype:str, logs:list[str])->list[str]:
     logs_of_type = []
