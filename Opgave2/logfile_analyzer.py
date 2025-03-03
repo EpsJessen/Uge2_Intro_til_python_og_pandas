@@ -14,6 +14,13 @@ def open_logfile(file_path:str = "Opgave2/app_log.txt")->list[str]:
         print("Could not read file!")
         return []
 
+def get_logs_by_type(logtype:str, logs:list[str])->list[str]:
+    logs_of_type = []
+    for log in logs:
+        if logtype in log:
+            logs_of_type.append(log)
+    return logs_of_type
+
 def main():
     logs = open_logfile()
 
