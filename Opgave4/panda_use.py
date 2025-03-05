@@ -13,7 +13,7 @@ def import_csv(filename:str="DKHousingPricesSample100k.csv") -> pd.DataFrame:
     
 
 def main():
-    pd.options.display.float_format = '{:.2f}'.format
+    pd.options.display.float_format = '{:,.2f}'.format
     
     print("\n\033[31mTask 1:\033[0m")
     df = import_csv()
@@ -48,15 +48,15 @@ def main():
     axis = unstacked.plot(kind="bar", style="plain", title="Prices by housing type at location", ylabel="price")
     axis.legend(labels=["Apartment", "Farm", "Summerhouse", "Townhouse", "Villa"])
     plt.tight_layout()
-    axes = unstacked.plot(kind="bar", subplots=True, layout=(2,3), style="plain", legend=False, sharey=True)
+    axes = unstacked.plot(kind="bar", subplots=True, layout=(1,5), style="plain", legend=False, sharey=True)
     axes[0,0].set_title("Apartment")
     axes[0,1].set_title("Farm")
     axes[0,2].set_title("Summerhouse")
-    axes[1,0].set_title("Townhouse")
-    axes[1,1].set_title("Villa")
+    axes[0,3].set_title("Townhouse")
+    axes[0,4].set_title("Villa")
     plt.tight_layout()
     plt.show()
     print()
-    
+
 if __name__ == "__main__":
     main()
