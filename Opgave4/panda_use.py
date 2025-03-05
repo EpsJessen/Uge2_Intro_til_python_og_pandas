@@ -19,6 +19,13 @@ def main():
     df = import_csv()
     print(df.head(10))
 
+    print("\n\033[31mTask 2:\033[0m")
+    reg_df = df.groupby("region")[["purchase_price"]].mean()
+    print(reg_df)
+    reg_df.plot.bar()
+    plt.tight_layout()
+    plt.show()
+
     
 if __name__ == "__main__":
     main()
