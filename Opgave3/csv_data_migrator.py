@@ -29,21 +29,27 @@ def remove_empty_fields(row:list[str])->list[str]:
 def clean_rows(dirty_rows:list[str], attempt_cleaning:bool = False):
     number_of_fields = len(fields)
     for number, row in enumerate(dirty_rows, 2):
+        # Checks if the number of entries match with the number of fields
+        # If not, something is wrong
         if len(row) != number_of_fields:
+            # if we want to attempt to clean the data, we check if there has been added too many commas to the entry
             if attempt_cleaning:
                 row = remove_empty_fields(row)
                 if len(row) != number_of_fields:
                     print(f"ERROR: row {number} contains the wrong amount of data!")
                     continue
+            # Otherwise we just report the error
             else:
                 print(f"ERROR: row {number} contains the wrong amount of data!")
                 continue
+        # Check if there are empty entries
         entry_error = False
         for entry in row:
             if not entry:
                 print(f"ERROR: row {number} contains empty entries!")
                 entry_error = True
                 break
+        # If no unsolvable problems discovered, add row as clean
         if not entry_error:
             rows.append(row)
 
@@ -67,8 +73,6 @@ def write_file(filename:str)->None:
                 file.write(data + "\n")
     except OSError:
         print(f"ERROR: could not write to file {path}")
-        
-
 
 
 def main():
