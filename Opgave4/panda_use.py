@@ -26,6 +26,21 @@ def main():
     plt.tight_layout()
     plt.show()
 
+    print("\n\033[31mTask 3:\033[0m")
+    type_reg_df = df.groupby(["house_type", "region"])[["purchase_price"]].mean()
+    unstacked = type_reg_df.unstack()
+    a = unstacked.plot(kind="bar", style="plain", title="Prices by location of housing type", ylabel="Price")
+    a.legend(labels=["Bornholm", "Fyn & Islands", "Jutland", "Zealand"])
+    plt.tight_layout()
+    axes = unstacked.plot(kind="bar", subplots=True, layout=(2,2), style="plain", ylabel="Price", legend=False, sharey=True)
+    axes[0,0].set_title("Bornholm")
+    axes[0,1].set_title("Fyn &\n Islands")
+    axes[1,0].set_title("Jutland")
+    axes[1,1].set_title("Zealand")
+    plt.tight_layout()
+
+    plt.show()
+    
     
 if __name__ == "__main__":
     main()
