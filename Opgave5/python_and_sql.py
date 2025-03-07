@@ -34,3 +34,10 @@ with engine.connect() as connection:
     mean_price_by_country.plot(kind = "bar", legend=False, title="Mean spending per order by country")
     plt.tight_layout()
     plt.show()
+
+    total_price_by_country = ship_country_group[["totalprice"]].sum()
+    total_price_by_country.plot(kind = "bar", title="Total spending by country", legend=False)
+    
+    plt.tight_layout()
+    plt.show()
+
