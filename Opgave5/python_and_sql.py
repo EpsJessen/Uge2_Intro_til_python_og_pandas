@@ -19,3 +19,10 @@ engine = create_engine(connection_string)
 
 with engine.connect() as connection:
 
+    query = "select orders.orderid, orders.shipcountry, orderdetails.discount, products.unitprice, orderdetails.quantity "
+    query += "from orders "
+    query += "inner join orderdetails on orders.orderid = orderdetails.orderid "
+    query += "inner join products on orderdetails.productid = products.productid;"
+    nw_full_orders = pd.read_sql(query, connection)
+    print(nw_full_orders.head(10))
+
