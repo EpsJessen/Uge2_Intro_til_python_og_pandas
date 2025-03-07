@@ -5,8 +5,8 @@ import os.path
 from mysql.connector import errorcode
 from sqlalchemy import create_engine
 
-sql_path = os.path.join("Opgave5", "northwind.sql")
-db_path = os.path.join("Opgave5", "northwind.db")
+def plot_path(name:str) -> str:
+    return os.path.join("Opgave5", name)
 
 print("You should have mySQL workbench serving the database at localhost:3306")
 
@@ -33,18 +33,19 @@ with engine.connect() as connection:
     mean_price_by_country = ship_country_group[["totalprice"]].mean()
     mean_price_by_country.plot(kind = "bar", legend=False, title="Mean spending per order by country")
     plt.tight_layout()
-    plt.show()
+    name = plot_path("country_mean_spending.png")
+    plt.savefig(name)
 
     total_price_by_country = ship_country_group[["totalprice"]].sum()
     total_price_by_country.plot(kind = "bar", title="Total spending by country", legend=False)
     
-    plt.tight_layout()
-    plt.show()
+    name = plot_path("country_total_spending.png")
+    plt.savefig(name)
 
     total_price_by_country = ship_country_group[["totalprice"]].count()
     total_price_by_country.plot(kind="bar", legend=False, title="Total orders per country")
-    plt.tight_layout()
-    plt.show()
+    name = plot_path("country_total_orders.png")
+    plt.savefig(name)
 
     query = "select orderdate, shippeddate, requireddate, employeeid "
     query += "from orders"
@@ -57,14 +58,17 @@ with engine.connect() as connection:
     mean_time_by_employee = time_employee_group[["fulfilmenttime"]].mean()
     #print(mean_time_by_employee.head(10))
     mean_time_by_employee.plot(kind = "bar", legend=False, title="Mean time per order by employee")
-    plt.show()
+    name = plot_path("employee_mean_fulfilment.png")
+    plt.savefig(name)
 
     frac_delay_by_employee = time_employee_group[["delay"]].mean()
     #print(frac_delay_by_employee.head(10))
     frac_delay_by_employee.plot(kind = "bar", legend=False, title="Fraction delayed orders by employee")
-    plt.show()
+    name = plot_path("employee_fraction_delay.png")
+    plt.savefig(name)
 
     max_time_by_employee = time_employee_group[["fulfilmenttime"]].max()
     #print(max_time_by_employee.head(10))
     max_time_by_employee.plot(kind = "bar", legend=False, title="Worst delivery time by employee")
-    plt.show()
+    name = plot_path("employee_max_fulfilment.png")
+    plt.savefig(name)
