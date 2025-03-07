@@ -49,3 +49,7 @@ with engine.connect() as connection:
     query = "select orderdate, shippeddate, requireddate, employeeid "
     query += "from orders"
     nw_orders_dates = pd.read_sql(query, connection)
+    nw_orders_dates["fulfilmenttime"] = (nw_orders_dates.shippeddate - nw_orders_dates.orderdate).dt.days
+    nw_orders_dates["delay"] = nw_orders_dates.requireddate < nw_orders_dates.shippeddate
+    #print(nw_orders_dates.head(10))
+
