@@ -1,5 +1,6 @@
 import csv
 import os.path
+import re
 
 fields = []
 rows = []
@@ -53,6 +54,38 @@ def clean_rows(dirty_rows:list[str], attempt_cleaning:bool = True, check_content
                 break
         if entry_error:
             continue
+
+        
+        #Clean data and ensure legal formats
+        if check_content:
+            #Ensure legit id
+            try:
+                value = int(row[0])
+            except:
+                log.append(f"ERROR: row {number} customer_id is non-integer")
+                continue
+
+            #Ensure no whitespace around name
+            row[1] = row[1].strip()
+            
+            #Ensure email is of legal format
+            try:
+                assert re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', row[2])
+            except AssertionError:
+                log.append(f"ERROR: row {number} contains a mistake in email format")
+                continue
+
+            #Ensure purchase amount is a non-negative number
+            try:
+                value = float(row[3])
+                assert value > 0
+            except ValueError:
+                log.append(f"ERROR: row {number} contains a non-number value in purchase")
+                continue
+            except AssertionError:
+                log.append(f"ERROR: row {number} contains a nonpositve number in purchase")
+                continue
+
         # If no unsolvable problems discovered, add row as clean
         rows.append(row)
 
