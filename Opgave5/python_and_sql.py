@@ -64,3 +64,7 @@ with engine.connect() as connection:
     frac_delay_by_employee.plot(kind = "bar", legend=False, title="Fraction delayed orders by employee")
     plt.show()
 
+    max_time_by_employee = time_employee_group[["fulfilmenttime"]].max()
+    #print(max_time_by_employee.head(10))
+    max_time_by_employee.plot(kind = "bar", legend=False, title="Worst delivery time by employee")
+    plt.show()
