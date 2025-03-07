@@ -41,3 +41,8 @@ with engine.connect() as connection:
     plt.tight_layout()
     plt.show()
 
+    total_price_by_country = ship_country_group[["totalprice"]].count()
+    total_price_by_country.plot(kind="bar", legend=False, title="Total orders per country")
+    plt.tight_layout()
+    plt.show()
+
