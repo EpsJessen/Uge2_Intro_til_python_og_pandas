@@ -46,3 +46,6 @@ with engine.connect() as connection:
     plt.tight_layout()
     plt.show()
 
+    query = "select orderdate, shippeddate, requireddate, employeeid "
+    query += "from orders"
+    nw_orders_dates = pd.read_sql(query, connection)
