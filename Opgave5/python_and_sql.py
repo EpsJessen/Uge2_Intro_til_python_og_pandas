@@ -53,3 +53,9 @@ with engine.connect() as connection:
     nw_orders_dates["delay"] = nw_orders_dates.requireddate < nw_orders_dates.shippeddate
     #print(nw_orders_dates.head(10))
 
+    time_employee_group = nw_orders_dates.groupby(["employeeid"])
+    mean_time_by_employee = time_employee_group[["fulfilmenttime"]].mean()
+    #print(mean_time_by_employee.head(10))
+    mean_time_by_employee.plot(kind = "bar", legend=False, title="Mean time per order by employee")
+    plt.show()
+
