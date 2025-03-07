@@ -59,3 +59,8 @@ with engine.connect() as connection:
     mean_time_by_employee.plot(kind = "bar", legend=False, title="Mean time per order by employee")
     plt.show()
 
+    frac_delay_by_employee = time_employee_group[["delay"]].mean()
+    #print(frac_delay_by_employee.head(10))
+    frac_delay_by_employee.plot(kind = "bar", legend=False, title="Fraction delayed orders by employee")
+    plt.show()
+
