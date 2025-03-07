@@ -3,6 +3,7 @@ import os.path
 
 fields = []
 rows = []
+log = []
 
 def read_file(filename:str)->list[str]:
     path = os.path.join("Opgave3", filename)
@@ -16,7 +17,7 @@ def read_file(filename:str)->list[str]:
             for row in csv_reader:
                 dirty_rows.append(row)
     except OSError:
-        print(f"ERROR: Could not read file {path}!")
+        log.append(f"ERROR: Could not read file {path}!")
     return dirty_rows
 
 def remove_empty_fields(row:list[str])->list[str]:
@@ -26,7 +27,7 @@ def remove_empty_fields(row:list[str])->list[str]:
             good_entries.append(entry)
     return good_entries
 
-def clean_rows(dirty_rows:list[str], attempt_cleaning:bool = False):
+def clean_rows(dirty_rows:list[str], attempt_cleaning:bool = True, check_content = True):
     number_of_fields = len(fields)
     for number, row in enumerate(dirty_rows, 2):
         # Checks if the number of entries match with the number of fields
@@ -36,22 +37,24 @@ def clean_rows(dirty_rows:list[str], attempt_cleaning:bool = False):
             if attempt_cleaning:
                 row = remove_empty_fields(row)
                 if len(row) != number_of_fields:
-                    print(f"ERROR: row {number} contains the wrong amount of data!")
+                    log.append(f"ERROR: row {number} contains the wrong amount of data!")
                     continue
             # Otherwise we just report the error
             else:
-                print(f"ERROR: row {number} contains the wrong amount of data!")
+                log.append(f"ERROR: row {number} contains the wrong amount of data!")
                 continue
+
         # Check if there are empty entries
         entry_error = False
         for entry in row:
             if not entry:
-                print(f"ERROR: row {number} contains empty entries!")
+                log.append(f"ERROR: row {number} contains empty entries!")
                 entry_error = True
                 break
+        if entry_error:
+            continue
         # If no unsolvable problems discovered, add row as clean
-        if not entry_error:
-            rows.append(row)
+        rows.append(row)
 
 def row_to_str(row:list[str])->str:
     data = ""
@@ -72,13 +75,26 @@ def write_file(filename:str)->None:
                 data = row_to_str(row)
                 file.write(data + "\n")
     except OSError:
-        print(f"ERROR: could not write to file {path}")
+        log.append(f"ERROR: could not write to file {path}")
+
+def write_log(path:str)->None:
+    try:
+        with open(path, "w") as file:
+            for line in log:
+                file.write(line + "\n")
+    except OSError:
+        log.append(f"ERROR: could not write log to file {path}")
 
 
 def main():
     dirty_rows = read_file("source_data.csv")
     clean_rows(dirty_rows, attempt_cleaning=True)
     write_file("cleaned_data.csv")
+    logpath = os.path.join("Opgave3", "logfile.txt")
+    if log != []:
+        print(f"encountered errors during execution, see log @ {logpath}.")
+    write_log(logpath)
+
 
 if __name__ == "__main__":
     main()
