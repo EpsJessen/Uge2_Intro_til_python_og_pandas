@@ -10,7 +10,9 @@ def import_csv(filename:str="DKHousingPricesSample100k.csv") -> pd.DataFrame:
             return df
     except OSError:
         print(f"Could not read file {path}")
-    
+
+def plot_path(name:str) -> str:
+    return os.path.join("Opgave4", name)
 
 def main():
     pd.options.display.float_format = '{:,.2f}'.format
@@ -24,14 +26,18 @@ def main():
     print(reg_df)
     reg_df.plot.bar()
     plt.tight_layout()
-    plt.show()
+    name = plot_path("subtask_2.png")
+    plt.savefig(name)
 
     print("\n\033[31mTask 3:\033[0m")
+    print("see plot")
     type_reg_df = df.groupby(["house_type", "region"])[["purchase_price"]].mean()
     unstacked = type_reg_df.unstack()
     a = unstacked.plot(kind="bar", style="plain", title="Prices by location of housing type", ylabel="Price")
     a.legend(labels=["Bornholm", "Fyn & Islands", "Jutland", "Zealand"])
     plt.tight_layout()
+    name = plot_path("subtask_3_stacked.png")
+    plt.savefig(name)
     axes = unstacked.plot(kind="bar", subplots=True, layout=(2,2), style="plain", ylabel="Price", legend=False, sharey=True)
     axes[0,0].set_title("Bornholm")
     axes[0,1].set_title("Fyn &\n Islands")
@@ -39,15 +45,19 @@ def main():
     axes[1,1].set_title("Zealand")
     plt.tight_layout()
 
-    plt.show()
+    name = plot_path("subtask_3_unstacked.png")
+    plt.savefig(name)
     
     print("\n\033[31mTask 4:\033[0m")
+    print("see plot")
     reg_type_df = df.groupby(["region", "house_type"])[["purchase_price"]].mean()
     print(reg_type_df)
     unstacked = reg_type_df.unstack()
     axis = unstacked.plot(kind="bar", style="plain", title="Prices by housing type at location", ylabel="price")
     axis.legend(labels=["Apartment", "Farm", "Summerhouse", "Townhouse", "Villa"])
     plt.tight_layout()
+    name = plot_path("subtask_4_stacked.png")
+    plt.savefig(name)
     axes = unstacked.plot(kind="bar", subplots=True, layout=(1,5), style="plain", legend=False, sharey=True)
     axes[0,0].set_title("Apartment")
     axes[0,1].set_title("Farm")
@@ -55,7 +65,8 @@ def main():
     axes[0,3].set_title("Townhouse")
     axes[0,4].set_title("Villa")
     plt.tight_layout()
-    plt.show()
+    name = plot_path("subtask_4_unstacked.png")
+    plt.savefig(name)
     print()
 
 if __name__ == "__main__":
